@@ -12,35 +12,71 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 40% 98%;
+    --foreground: 210 22% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 210 22% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 210 22% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 200 95% 45%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 210 22% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 210 10% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 210 22% 15%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 214 31% 91%;
+    --input: 214 31% 91%;
+    --ring: 200 95% 45%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Water theme colors */
+    --water-50: 195 100% 95%;
+    --water-100: 195 100% 85%;
+    --water-200: 195 95% 75%;
+    --water-300: 195 90% 65%;
+    --water-400: 195 85% 55%;
+    --water-500: 195 95% 45%;
+    --water-600: 195 95% 35%;
+    --water-700: 195 95% 25%;
+    --water-800: 195 95% 15%;
+    --water-900: 195 95% 10%;
+
+    /* Earth theme colors */
+    --earth-50: 25 60% 95%;
+    --earth-100: 25 60% 85%;
+    --earth-200: 25 55% 75%;
+    --earth-300: 25 50% 65%;
+    --earth-400: 25 45% 55%;
+    --earth-500: 25 50% 45%;
+    --earth-600: 25 50% 35%;
+    --earth-700: 25 50% 25%;
+    --earth-800: 25 50% 15%;
+    --earth-900: 25 50% 10%;
+
+    /* Nature theme colors */
+    --nature-50: 120 40% 95%;
+    --nature-100: 120 40% 85%;
+    --nature-200: 120 35% 75%;
+    --nature-300: 120 30% 65%;
+    --nature-400: 120 25% 55%;
+    --nature-500: 120 30% 45%;
+    --nature-600: 120 35% 35%;
+    --nature-700: 120 40% 25%;
+    --nature-800: 120 45% 15%;
+    --nature-900: 120 50% 10%;
 
     --sidebar-background: 0 0% 98%;
 
