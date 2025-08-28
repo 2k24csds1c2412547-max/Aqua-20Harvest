@@ -1,18 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Droplets, 
-  Calculator, 
-  MapPin, 
-  Users, 
-  Home, 
+import {
+  Droplets,
+  Calculator,
+  MapPin,
+  Users,
+  Home,
   Zap,
   ChevronRight,
   CheckCircle,
   TrendingUp,
   Leaf,
-  Shield
+  Shield,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -21,7 +21,7 @@ export default function Index() {
   const [stats, setStats] = useState({
     assessments: 0,
     waterSaved: 0,
-    households: 0
+    households: 0,
   });
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Index() {
       setStats({
         assessments: 1247,
         waterSaved: 15640,
-        households: 890
+        households: 890,
       });
     }, 500);
     return () => clearTimeout(timer);
@@ -40,23 +40,27 @@ export default function Index() {
     {
       icon: Calculator,
       title: "Real-Time Data Integration",
-      description: "Auto-location detection and live weather data integration for accurate rainfall calculations and feasibility analysis"
+      description:
+        "Auto-location detection and live weather data integration for accurate rainfall calculations and feasibility analysis",
     },
     {
       icon: MapPin,
       title: "Government Guidelines Compliant",
-      description: "Follows Ministry of Jal Shakti and MoHUA guidelines for mandatory installations and technical specifications"
+      description:
+        "Follows Ministry of Jal Shakti and MoHUA guidelines for mandatory installations and technical specifications",
     },
     {
       icon: Zap,
       title: "Smart Recharge Design",
-      description: "AI-powered recommendations for recharge pits, trenches, and shafts based on geological conditions and real data"
+      description:
+        "AI-powered recommendations for recharge pits, trenches, and shafts based on geological conditions and real data",
     },
     {
       icon: Shield,
       title: "Precision Engineering",
-      description: "Location-based aquifer analysis, live rainfall data, and complete technical specifications for optimal implementation"
-    }
+      description:
+        "Location-based aquifer analysis, live rainfall data, and complete technical specifications for optimal implementation",
+    },
   ];
 
   const benefits = [
@@ -65,7 +69,7 @@ export default function Index() {
     "Meet mandatory government installation requirements",
     "Receive precision-engineered recharge structure recommendations",
     "Understand local aquifer conditions with live weather integration",
-    "Ensure compliance with Ministry of Jal Shakti guidelines"
+    "Ensure compliance with Ministry of Jal Shakti guidelines",
   ];
 
   return (
@@ -76,7 +80,10 @@ export default function Index() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div>
-                <Badge variant="secondary" className="mb-4 bg-water-100 text-water-700">
+                <Badge
+                  variant="secondary"
+                  className="mb-4 bg-water-100 text-water-700"
+                >
                   Groundwater Conservation Initiative
                 </Badge>
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
@@ -87,13 +94,18 @@ export default function Index() {
                   Harvesting Potential
                 </h1>
                 <p className="text-xl text-gray-600 mt-6">
-                  Get personalized recommendations with real-time weather data, automatic location detection,
-                  and AI-powered analysis for optimal rainwater harvesting implementation.
+                  Get personalized recommendations with real-time weather data,
+                  automatic location detection, and AI-powered analysis for
+                  optimal rainwater harvesting implementation.
                 </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button asChild size="lg" className="bg-water-600 hover:bg-water-700">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-water-600 hover:bg-water-700"
+                >
                   <Link to="/assessment">
                     Start Assessment
                     <Calculator className="ml-2 w-5 h-5" />
@@ -110,15 +122,21 @@ export default function Index() {
               {/* Quick Stats */}
               <div className="grid grid-cols-3 gap-4 pt-8 border-t border-gray-200">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-water-600">{stats.assessments.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-water-600">
+                    {stats.assessments.toLocaleString()}
+                  </div>
                   <div className="text-sm text-gray-600">Assessments</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-nature-600">{stats.waterSaved.toLocaleString()}L</div>
+                  <div className="text-2xl font-bold text-nature-600">
+                    {stats.waterSaved.toLocaleString()}L
+                  </div>
                   <div className="text-sm text-gray-600">Water Saved</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-earth-600">{stats.households.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-earth-600">
+                    {stats.households.toLocaleString()}
+                  </div>
                   <div className="text-sm text-gray-600">Households</div>
                 </div>
               </div>
@@ -131,8 +149,12 @@ export default function Index() {
                     <Droplets className="w-12 h-12 text-white" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-gray-900">Smart Assessment</h3>
-                    <p className="text-gray-600">Auto-location detection + real-time weather data</p>
+                    <h3 className="text-2xl font-bold text-gray-900">
+                      Smart Assessment
+                    </h3>
+                    <p className="text-gray-600">
+                      Auto-location detection + real-time weather data
+                    </p>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div className="flex items-center space-x-2">
@@ -166,8 +188,9 @@ export default function Index() {
             Why Use Our Assessment Tool?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our advanced platform combines GIS technology with proven algorithms to provide 
-            accurate, personalized recommendations for your rainwater harvesting project.
+            Our advanced platform combines GIS technology with proven algorithms
+            to provide accurate, personalized recommendations for your rainwater
+            harvesting project.
           </p>
         </div>
 
@@ -175,7 +198,10 @@ export default function Index() {
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <Card key={index} className="text-center border-none shadow-lg hover:shadow-xl transition-shadow">
+              <Card
+                key={index}
+                className="text-center border-none shadow-lg hover:shadow-xl transition-shadow"
+              >
                 <CardHeader>
                   <div className="w-12 h-12 bg-gradient-to-br from-water-500 to-water-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                     <Icon className="w-6 h-6 text-white" />
@@ -200,10 +226,11 @@ export default function Index() {
                 Benefits of Rooftop Rainwater Harvesting
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                Join thousands of households already benefiting from sustainable water management 
-                and contributing to groundwater conservation efforts.
+                Join thousands of households already benefiting from sustainable
+                water management and contributing to groundwater conservation
+                efforts.
               </p>
-              
+
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-center space-x-3">
@@ -213,7 +240,10 @@ export default function Index() {
                 ))}
               </div>
 
-              <Button asChild className="mt-8 bg-nature-600 hover:bg-nature-700">
+              <Button
+                asChild
+                className="mt-8 bg-nature-600 hover:bg-nature-700"
+              >
                 <Link to="/assessment">
                   Get Started Today
                   <Leaf className="ml-2 w-5 h-5" />
@@ -224,19 +254,27 @@ export default function Index() {
             <div className="bg-gradient-to-br from-nature-50 to-water-50 rounded-2xl p-8">
               <div className="text-center space-y-6">
                 <div className="text-4xl font-bold text-nature-600">40%</div>
-                <div className="text-lg text-gray-700">Average water bill reduction</div>
-                
+                <div className="text-lg text-gray-700">
+                  Average water bill reduction
+                </div>
+
                 <div className="grid grid-cols-2 gap-6 mt-8">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-water-600">15,000L</div>
-                    <div className="text-sm text-gray-600">Annual harvest potential</div>
+                    <div className="text-2xl font-bold text-water-600">
+                      15,000L
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Annual harvest potential
+                    </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-earth-600">₹12,000</div>
+                    <div className="text-2xl font-bold text-earth-600">
+                      ₹12,000
+                    </div>
                     <div className="text-sm text-gray-600">Annual savings</div>
                   </div>
                 </div>
-                
+
                 <p className="text-sm text-gray-600 italic">
                   *Based on average household assessments
                 </p>
@@ -256,10 +294,14 @@ export default function Index() {
                 Ready to Start Your Water Conservation Journey?
               </h2>
               <p className="text-xl mb-8 opacity-90">
-                Get your personalized RTRWH assessment in less than 5 minutes. 
+                Get your personalized RTRWH assessment in less than 5 minutes.
                 Join the movement towards sustainable water management.
               </p>
-              <Button asChild size="lg" className="bg-white text-water-700 hover:bg-gray-100">
+              <Button
+                asChild
+                size="lg"
+                className="bg-white text-water-700 hover:bg-gray-100"
+              >
                 <Link to="/assessment">
                   Start Free Assessment
                   <ChevronRight className="ml-2 w-5 h-5" />

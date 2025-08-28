@@ -47,7 +47,7 @@ export default function Layout({ children }: LayoutProps) {
                       "flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                       location.pathname === item.href
                         ? "bg-water-100 text-water-700"
-                        : "text-gray-600 hover:text-water-600 hover:bg-water-50"
+                        : "text-gray-600 hover:text-water-600 hover:bg-water-50",
                     )}
                   >
                     <Icon className="w-4 h-4" />
@@ -64,7 +64,11 @@ export default function Layout({ children }: LayoutProps) {
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </Button>
           </div>
 
@@ -83,7 +87,7 @@ export default function Layout({ children }: LayoutProps) {
                         "flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                         location.pathname === item.href
                           ? "bg-water-100 text-water-700"
-                          : "text-gray-600 hover:text-water-600 hover:bg-water-50"
+                          : "text-gray-600 hover:text-water-600 hover:bg-water-50",
                       )}
                     >
                       <Icon className="w-4 h-4" />
@@ -98,9 +102,7 @@ export default function Layout({ children }: LayoutProps) {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1">
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
 
       {/* Footer */}
       <footer className="bg-white border-t border-water-200 mt-auto">
@@ -116,27 +118,41 @@ export default function Layout({ children }: LayoutProps) {
                 </span>
               </div>
               <p className="text-gray-600 text-sm">
-                Empowering communities with tools for sustainable water management and groundwater conservation through technology.
+                Empowering communities with tools for sustainable water
+                management and groundwater conservation through technology.
               </p>
             </div>
-            
+
             <div>
               <h3 className="font-semibold text-gray-900 mb-4">Quick Links</h3>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li><Link to="/assessment" className="hover:text-water-600">Start Assessment</Link></li>
-                <li><Link to="/resources" className="hover:text-water-600">Learn More</Link></li>
-                <li><Link to="/about" className="hover:text-water-600">About RTRWH</Link></li>
+                <li>
+                  <Link to="/assessment" className="hover:text-water-600">
+                    Start Assessment
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/resources" className="hover:text-water-600">
+                    Learn More
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/about" className="hover:text-water-600">
+                    About RTRWH
+                  </Link>
+                </li>
               </ul>
             </div>
-            
+
             <div>
               <h3 className="font-semibold text-gray-900 mb-4">Contact</h3>
               <p className="text-sm text-gray-600">
-                For technical support or inquiries about rainwater harvesting implementation.
+                For technical support or inquiries about rainwater harvesting
+                implementation.
               </p>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-200 mt-8 pt-6 text-center text-sm text-gray-500">
             © 2024 AquaHarvest. Promoting sustainable water conservation.
           </div>

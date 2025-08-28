@@ -1,16 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  BookOpen, 
-  Download, 
-  ExternalLink, 
+import {
+  BookOpen,
+  Download,
+  ExternalLink,
   FileText,
   Video,
   Users,
   Calculator,
   Lightbulb,
-  ChevronRight
+  ChevronRight,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -25,8 +25,8 @@ export default function Resources() {
         "Complete Installation Manual",
         "Maintenance Guidelines",
         "Quality Control Checklist",
-        "Safety Procedures"
-      ]
+        "Safety Procedures",
+      ],
     },
     {
       icon: FileText,
@@ -37,8 +37,8 @@ export default function Resources() {
         "Design Standards",
         "Material Specifications",
         "Cost Estimation Templates",
-        "Performance Metrics"
-      ]
+        "Performance Metrics",
+      ],
     },
     {
       icon: Video,
@@ -49,8 +49,8 @@ export default function Resources() {
         "RTRWH Basics",
         "Installation Tutorials",
         "Maintenance Tips",
-        "Success Stories"
-      ]
+        "Success Stories",
+      ],
     },
     {
       icon: Calculator,
@@ -61,40 +61,43 @@ export default function Resources() {
         "Storage Calculator",
         "Cost Estimator",
         "ROI Calculator",
-        "Water Quality Checker"
-      ]
-    }
+        "Water Quality Checker",
+      ],
+    },
   ];
 
   const popularResources = [
     {
       title: "RTRWH Implementation Handbook",
-      description: "Comprehensive guide covering all aspects of rooftop rainwater harvesting implementation",
+      description:
+        "Comprehensive guide covering all aspects of rooftop rainwater harvesting implementation",
       type: "PDF Guide",
       size: "2.4 MB",
-      downloads: 1247
+      downloads: 1247,
     },
     {
       title: "State-wise Guidelines",
-      description: "Specific guidelines and regulations for different Indian states",
+      description:
+        "Specific guidelines and regulations for different Indian states",
       type: "PDF Document",
       size: "1.8 MB",
-      downloads: 856
+      downloads: 856,
     },
     {
       title: "Cost Estimation Template",
-      description: "Excel template for calculating implementation costs and ROI",
+      description:
+        "Excel template for calculating implementation costs and ROI",
       type: "Excel File",
       size: "245 KB",
-      downloads: 2134
+      downloads: 2134,
     },
     {
       title: "Maintenance Checklist",
       description: "Monthly and yearly maintenance checklist for RTRWH systems",
       type: "PDF Checklist",
       size: "156 KB",
-      downloads: 967
-    }
+      downloads: 967,
+    },
   ];
 
   const externalLinks = [
@@ -102,39 +105,43 @@ export default function Resources() {
       title: "Ministry of Jal Shakti",
       description: "Official government resources on water conservation",
       url: "https://jalshakti.gov.in",
-      organization: "Government of India"
+      organization: "Government of India",
     },
     {
       title: "Central Ground Water Board",
       description: "Guidelines and policies for groundwater management",
       url: "https://cgwb.gov.in",
-      organization: "CGWB"
+      organization: "CGWB",
     },
     {
       title: "Rainwater Harvesting Association",
       description: "Industry best practices and standards",
       url: "https://rainwaterharvesting.org",
-      organization: "RHA India"
-    }
+      organization: "RHA India",
+    },
   ];
 
   const faqs = [
     {
       question: "What is the minimum roof area required for RTRWH?",
-      answer: "There's no strict minimum, but typically 500 sq ft can provide meaningful water collection for a small household."
+      answer:
+        "There's no strict minimum, but typically 500 sq ft can provide meaningful water collection for a small household.",
     },
     {
       question: "How much does a basic RTRWH system cost?",
-      answer: "Basic systems start from ₹25,000-50,000 depending on the size and components chosen."
+      answer:
+        "Basic systems start from ₹25,000-50,000 depending on the size and components chosen.",
     },
     {
       question: "Is rainwater safe for drinking?",
-      answer: "With proper filtration and treatment, harvested rainwater can be made safe for drinking. First-flush diverters and filtration systems are essential."
+      answer:
+        "With proper filtration and treatment, harvested rainwater can be made safe for drinking. First-flush diverters and filtration systems are essential.",
     },
     {
       question: "What maintenance is required?",
-      answer: "Regular cleaning of gutters, checking filters, and annual system inspection are the main maintenance requirements."
-    }
+      answer:
+        "Regular cleaning of gutters, checking filters, and annual system inspection are the main maintenance requirements.",
+    },
   ];
 
   return (
@@ -152,7 +159,7 @@ export default function Resources() {
             </span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Comprehensive resources to help you understand, plan, and implement 
+            Comprehensive resources to help you understand, plan, and implement
             rooftop rainwater harvesting systems successfully.
           </p>
         </div>
@@ -165,7 +172,8 @@ export default function Resources() {
             Resource Categories
           </h2>
           <p className="text-lg text-gray-600">
-            Everything you need to know about rainwater harvesting, organized by category
+            Everything you need to know about rainwater harvesting, organized by
+            category
           </p>
         </div>
 
@@ -173,7 +181,10 @@ export default function Resources() {
           {resourceCategories.map((category, index) => {
             const Icon = category.icon;
             return (
-              <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow">
+              <Card
+                key={index}
+                className="border-none shadow-lg hover:shadow-xl transition-shadow"
+              >
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
@@ -181,8 +192,12 @@ export default function Resources() {
                         <Icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <CardTitle className="text-lg">{category.title}</CardTitle>
-                        <Badge variant="secondary" className="text-xs">{category.count} items</Badge>
+                        <CardTitle className="text-lg">
+                          {category.title}
+                        </CardTitle>
+                        <Badge variant="secondary" className="text-xs">
+                          {category.count} items
+                        </Badge>
                       </div>
                     </div>
                   </div>
@@ -191,7 +206,10 @@ export default function Resources() {
                 <CardContent>
                   <ul className="space-y-2">
                     {category.items.map((item, itemIndex) => (
-                      <li key={itemIndex} className="flex items-center space-x-2 text-sm text-gray-600">
+                      <li
+                        key={itemIndex}
+                        className="flex items-center space-x-2 text-sm text-gray-600"
+                      >
                         <ChevronRight className="w-4 h-4 text-water-500" />
                         <span>{item}</span>
                       </li>
@@ -221,16 +239,25 @@ export default function Resources() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {popularResources.map((resource, index) => (
-              <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow">
+              <Card
+                key={index}
+                className="border-none shadow-lg hover:shadow-xl transition-shadow"
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2">{resource.title}</h3>
-                      <p className="text-gray-600 text-sm mb-3">{resource.description}</p>
+                      <h3 className="font-semibold text-gray-900 mb-2">
+                        {resource.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-3">
+                        {resource.description}
+                      </p>
                       <div className="flex items-center space-x-4 text-xs text-gray-500">
                         <span>{resource.type}</span>
                         <span>{resource.size}</span>
-                        <span>{resource.downloads.toLocaleString()} downloads</span>
+                        <span>
+                          {resource.downloads.toLocaleString()} downloads
+                        </span>
                       </div>
                     </div>
                     <Download className="w-5 h-5 text-water-600 flex-shrink-0 ml-4" />
@@ -259,13 +286,22 @@ export default function Resources() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {externalLinks.map((link, index) => (
-            <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow">
+            <Card
+              key={index}
+              className="border-none shadow-lg hover:shadow-xl transition-shadow"
+            >
               <CardContent className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-2">{link.title}</h3>
-                    <p className="text-gray-600 text-sm mb-3">{link.description}</p>
-                    <Badge variant="outline" className="text-xs">{link.organization}</Badge>
+                    <h3 className="font-semibold text-gray-900 mb-2">
+                      {link.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-3">
+                      {link.description}
+                    </p>
+                    <Badge variant="outline" className="text-xs">
+                      {link.organization}
+                    </Badge>
                   </div>
                   <ExternalLink className="w-5 h-5 text-water-600 flex-shrink-0 ml-4" />
                 </div>
@@ -313,21 +349,27 @@ export default function Resources() {
           <CardContent className="p-12 text-center relative">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
-              <h2 className="text-3xl font-bold mb-4">
-                Ready to Get Started?
-              </h2>
+              <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
               <p className="text-xl mb-8 opacity-90">
-                Have all the information you need? Take the next step and assess 
+                Have all the information you need? Take the next step and assess
                 your property's rainwater harvesting potential.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg" className="bg-white text-water-700 hover:bg-gray-100">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-white text-water-700 hover:bg-gray-100"
+                >
                   <Link to="/assessment">
                     Start Assessment
                     <Calculator className="ml-2 w-5 h-5" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="bg-transparent border-white text-white hover:bg-white hover:text-water-700">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="bg-transparent border-white text-white hover:bg-white hover:text-water-700"
+                >
                   Contact Support
                   <Users className="ml-2 w-5 h-5" />
                 </Button>
