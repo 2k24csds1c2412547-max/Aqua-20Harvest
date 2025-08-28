@@ -39,8 +39,8 @@ export default function Index() {
   const features = [
     {
       icon: Calculator,
-      title: "Comprehensive Assessment",
-      description: "Complete feasibility analysis including geological conditions, aquifer information, and runoff capacity"
+      title: "Real-Time Data Integration",
+      description: "Auto-location detection and live weather data integration for accurate rainfall calculations and feasibility analysis"
     },
     {
       icon: MapPin,
@@ -49,13 +49,13 @@ export default function Index() {
     },
     {
       icon: Zap,
-      title: "Recharge Structure Design",
-      description: "Detailed recommendations for recharge pits, trenches, and shafts with precise dimensions and costs"
+      title: "Smart Recharge Design",
+      description: "AI-powered recommendations for recharge pits, trenches, and shafts based on geological conditions and real data"
     },
     {
       icon: Shield,
-      title: "Technical Specifications",
-      description: "Complete filtration design, aquifer analysis, and cost-benefit calculations for informed implementation"
+      title: "Precision Engineering",
+      description: "Location-based aquifer analysis, live rainfall data, and complete technical specifications for optimal implementation"
     }
   ];
 
@@ -87,8 +87,8 @@ export default function Index() {
                   Harvesting Potential
                 </h1>
                 <p className="text-xl text-gray-600 mt-6">
-                  Discover how much water you can harvest, save costs, and contribute to environmental conservation 
-                  with our AI-powered assessment tool.
+                  Get personalized recommendations with real-time weather data, automatic location detection,
+                  and AI-powered analysis for optimal rainwater harvesting implementation.
                 </p>
               </div>
 
