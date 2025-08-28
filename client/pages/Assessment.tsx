@@ -133,31 +133,159 @@ export default function Assessment() {
 
   const calculateResults = async () => {
     setIsCalculating(true);
-    
+
     // Simulate API call for calculation
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Mock calculation based on form data
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // Enhanced calculation based on form data and government guidelines
     const roofArea = parseFloat(formData.roofArea) || 0;
     const dwellers = parseInt(formData.dwellers) || 1;
     const rainfall = parseFloat(formData.annualRainfall) || 1000;
-    
-    const harvestPotential = Math.round(roofArea * rainfall * 0.8 * 0.001); // Convert to kiloliters
-    const systemCost = Math.round(roofArea * 200 + 25000); // Base cost calculation
-    const annualSavings = Math.round(harvestPotential * 15); // Assuming ₹15 per kiloliter
-    const paybackPeriod = Math.round(systemCost / Math.max(annualSavings, 1));
-    
+    const plotArea = parseFloat(formData.plotArea) || roofArea * 1.5;
+    const buildingArea = parseFloat(formData.buildingArea) || roofArea;
+
+    // Calculate runoff coefficient based on roof type
+    const runoffCoefficient = formData.roofType === "Concrete/RCC" ? 0.85 :
+                             formData.roofType === "Tiled" ? 0.75 :
+                             formData.roofType === "Metal Sheet" ? 0.90 : 0.70;
+
+    const harvestPotential = Math.round(roofArea * rainfall * runoffCoefficient * 0.001);
+    const runoffCapacity = Math.round(roofArea * 0.001 * rainfall * runoffCoefficient);
+
+    // Government compliance check (mandatory for buildings >300 sq m as per guidelines)
+    const mandatoryRequirement = buildingArea >= 300;
+
+    // Determine suitable recharge structures based on geological conditions
+    const rechargeStructures = getRechargeStructures(formData.geologicalCondition, formData.soilType, plotArea);
+
+    // Calculate costs including recharge structures
+    const baseSystemCost = roofArea * 250 + 30000;
+    const rechargeStructureCost = rechargeStructures.reduce((total, structure) => total + structure.cost, 0);
+    const totalCost = baseSystemCost + rechargeStructureCost;
+
+    const annualSavings = Math.round(harvestPotential * 18); // Updated rate
+    const paybackPeriod = Math.round(totalCost / Math.max(annualSavings, 1));
+
+    // Determine aquifer information based on location and geological condition
+    const aquiferInfo = getAquiferInfo(formData.geologicalCondition, formData.groundwaterDepth);
+
     setResults({
       harvestPotential,
-      systemSize: roofArea > 100 ? "Large Scale" : roofArea > 50 ? "Medium Scale" : "Small Scale",
-      estimatedCost: systemCost,
+      systemSize: roofArea > 150 ? "Large Scale" : roofArea > 75 ? "Medium Scale" : "Small Scale",
+      estimatedCost: totalCost,
       annualSavings,
       paybackPeriod,
-      environmentalImpact: `${Math.round(harvestPotential * 1000)} liters saved annually`
+      environmentalImpact: `${Math.round(harvestPotential * 1000)} liters saved annually`,
+      rechargeStructures,
+      geologicalFeasibility: getGeologicalFeasibility(formData.geologicalCondition, formData.soilType),
+      governmentCompliance: {
+        mandatoryRequirement,
+        complianceLevel: mandatoryRequirement ? "Mandatory Installation Required" : "Voluntary Installation",
+        requiredPermits: mandatoryRequirement ? ["Building Plan Approval", "Water Authority NOC"] : [],
+        guidelines: [
+          "Ministry of Jal Shakti Guidelines",
+          "MoHUA Building Bylaws",
+          "State Water Conservation Rules"
+        ]
+      },
+      aquiferInfo,
+      runoffCapacity
     });
-    
+
     setIsCalculating(false);
-    setCurrentStep(3);
+    setCurrentStep(4);
+  };
+
+  // Helper function to determine suitable recharge structures
+  const getRechargeStructures = (geological: string, soil: string, area: number): RechargeStructure[] => {
+    const structures: RechargeStructure[] = [];
+
+    if (geological.includes("Alluvial") || geological.includes("Sedimentary")) {
+      structures.push({
+        type: "Recharge Pit",
+        dimensions: "3m x 3m x 3m depth",
+        cost: 25000,
+        suitability: "Highly Suitable",
+        specifications: [
+          "Filter bed: 30cm gravel + 60cm sand",
+          "Overflow pipe at 2.5m depth",
+          "Maintenance cover provided",
+          "First flush diverter included"
+        ]
+      });
+    }
+
+    if (geological.includes("Hard Rock") || geological.includes("Fractured")) {
+      structures.push({
+        type: "Recharge Shaft",
+        dimensions: "1.5m diameter x 15m depth",
+        cost: 45000,
+        suitability: "Suitable",
+        specifications: [
+          "Casing pipe for top 3m",
+          "Filter pack around perforated section",
+          "Gravel pack: 20-40mm aggregate",
+          "Development and yield testing"
+        ]
+      });
+    }
+
+    if (area > 500) {
+      structures.push({
+        type: "Recharge Trench",
+        dimensions: `${Math.min(area/100, 50)}m length x 1m width x 1.5m depth`,
+        cost: Math.round(area * 80),
+        suitability: "Suitable for large areas",
+        specifications: [
+          "Rubble stone filling",
+          "Sand and gravel layers",
+          "Perforated distribution pipe",
+          "Geotextile filter layer"
+        ]
+      });
+    }
+
+    return structures;
+  };
+
+  // Helper function to get aquifer information
+  const getAquiferInfo = (geological: string, depth: string): AquiferInfo => {
+    if (geological.includes("Alluvial")) {
+      return {
+        type: "Unconfined Alluvial Aquifer",
+        depth: depth || "Shallow to moderate depth",
+        quality: "Good to Moderate",
+        rechargeCapacity: "High potential for artificial recharge"
+      };
+    } else if (geological.includes("Hard Rock")) {
+      return {
+        type: "Fractured Hard Rock Aquifer",
+        depth: depth || "Variable depth",
+        quality: "Generally Good",
+        rechargeCapacity: "Moderate potential through fractures"
+      };
+    } else {
+      return {
+        type: "Mixed Aquifer System",
+        depth: depth || "Variable",
+        quality: "Variable",
+        rechargeCapacity: "Site-specific assessment required"
+      };
+    }
+  };
+
+  // Helper function to assess geological feasibility
+  const getGeologicalFeasibility = (geological: string, soil: string): string => {
+    if ((geological.includes("Alluvial") || geological.includes("Fractured")) &&
+        !soil.includes("Clay")) {
+      return "Highly Feasible - Excellent conditions for RTRWH and artificial recharge";
+    } else if (geological.includes("Hard Rock") && soil.includes("Sandy")) {
+      return "Feasible - Good conditions with proper structure design";
+    } else if (soil.includes("Clay") || soil.includes("Black Cotton")) {
+      return "Moderately Feasible - Requires additional filtration and drainage measures";
+    } else {
+      return "Site Assessment Required - Detailed geological study recommended";
+    }
   };
 
   const resetAssessment = () => {
