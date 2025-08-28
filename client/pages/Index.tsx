@@ -60,12 +60,12 @@ export default function Index() {
   ];
 
   const benefits = [
-    "Reduce water bills by up to 40%",
+    "Get instant results with automatic location detection",
+    "Access real-time rainfall data for accurate calculations",
     "Meet mandatory government installation requirements",
-    "Get precise recharge structure recommendations with costs",
-    "Understand local aquifer conditions and potential",
-    "Ensure compliance with Ministry of Jal Shakti guidelines",
-    "Receive technical specifications for proper implementation"
+    "Receive precision-engineered recharge structure recommendations",
+    "Understand local aquifer conditions with live weather integration",
+    "Ensure compliance with Ministry of Jal Shakti guidelines"
   ];
 
   return (
@@ -131,8 +131,8 @@ export default function Index() {
                     <Droplets className="w-12 h-12 text-white" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-bold text-gray-900">Simple Assessment</h3>
-                    <p className="text-gray-600">Just 5 inputs to get comprehensive analysis</p>
+                    <h3 className="text-2xl font-bold text-gray-900">Smart Assessment</h3>
+                    <p className="text-gray-600">Auto-location detection + real-time weather data</p>
                   </div>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div className="flex items-center space-x-2">
