@@ -6,17 +6,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Calculator, 
-  MapPin, 
-  Users, 
-  Home, 
+import {
+  Calculator,
+  MapPin,
+  Users,
+  Home,
   Droplets,
   ChevronRight,
   ChevronLeft,
   CheckCircle,
   TrendingUp,
-  AlertCircle
+  AlertCircle,
+  Shield,
+  FileText,
+  Layers,
+  Zap,
+  Building
 } from "lucide-react";
 import { useState } from "react";
 
@@ -706,6 +711,156 @@ export default function Assessment() {
             </CardContent>
           </Card>
 
+          {/* Government Compliance */}
+          <Card className="border-none shadow-lg bg-gradient-to-r from-blue-50 to-blue-100">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Shield className="w-5 h-5 text-blue-600" />
+                <span>Government Compliance Status</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Badge variant={results.governmentCompliance.mandatoryRequirement ? "destructive" : "secondary"}>
+                      {results.governmentCompliance.complianceLevel}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">
+                    {results.governmentCompliance.mandatoryRequirement
+                      ? "Your building falls under mandatory RTRWH installation requirements as per MoHUA guidelines."
+                      : "RTRWH installation is voluntary for your building size but highly recommended."}
+                  </p>
+
+                  {results.governmentCompliance.requiredPermits.length > 0 && (
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2">Required Permits:</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        {results.governmentCompliance.requiredPermits.map((permit, index) => (
+                          <li key={index} className="flex items-center space-x-2">
+                            <FileText className="w-4 h-4" />
+                            <span>{permit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-800 mb-2">Applicable Guidelines:</h4>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    {results.governmentCompliance.guidelines.map((guideline, index) => (
+                      <li key={index} className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <span>{guideline}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Geological Feasibility */}
+          <Card className="border-none shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Layers className="w-5 h-5 text-earth-600" />
+                <span>Geological Feasibility Analysis</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Site Assessment</h4>
+                    <p className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+                      {results.geologicalFeasibility}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Runoff Generation</h4>
+                    <div className="flex items-center space-x-2">
+                      <Zap className="w-5 h-5 text-water-600" />
+                      <span className="text-lg font-semibold">{results.runoffCapacity} KL/year</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">Based on roof type and local rainfall</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-medium text-gray-800 mb-3">Principal Aquifer Information</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Aquifer Type:</span>
+                      <span className="font-medium">{results.aquiferInfo.type}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Depth Range:</span>
+                      <span className="font-medium">{results.aquiferInfo.depth}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Water Quality:</span>
+                      <span className="font-medium">{results.aquiferInfo.quality}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Recharge Potential:</span>
+                      <span className="font-medium">{results.aquiferInfo.rechargeCapacity}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Recommended Recharge Structures */}
+          <Card className="border-none shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Building className="w-5 h-5 text-nature-600" />
+                <span>Recommended Recharge Structures</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-6">
+                {results.rechargeStructures.map((structure, index) => (
+                  <div key={index} className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h4 className="font-semibold text-gray-800">{structure.type}</h4>
+                        <Badge variant="outline" className="mt-1">{structure.suitability}</Badge>
+                      </div>
+                      <span className="text-lg font-bold text-water-600">₹{structure.cost.toLocaleString()}</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm text-gray-600 mb-2">
+                          <strong>Dimensions:</strong> {structure.dimensions}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h5 className="font-medium text-gray-800 mb-2">Technical Specifications:</h5>
+                        <ul className="text-xs text-gray-600 space-y-1">
+                          {structure.specifications.map((spec, specIndex) => (
+                            <li key={specIndex} className="flex items-start space-x-1">
+                              <span className="text-water-600 mt-1">•</span>
+                              <span>{spec}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="border-none shadow-lg">
               <CardHeader>
@@ -717,7 +872,7 @@ export default function Assessment() {
                   <Badge variant="secondary">{results.systemSize}</Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Estimated Cost:</span>
+                  <span className="text-gray-600">Total Estimated Cost:</span>
                   <span className="font-semibold">₹{results.estimatedCost.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -747,14 +902,18 @@ export default function Assessment() {
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
                   <div>
                     <div className="font-medium">Groundwater Recharge</div>
-                    <div className="text-sm text-gray-600">Contributes to local groundwater levels</div>
+                    <div className="text-sm text-gray-600">
+                      Enhances local groundwater through {results.rechargeStructures.length} recharge structure(s)
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
                   <div>
-                    <div className="font-medium">Sustainable Living</div>
-                    <div className="text-sm text-gray-600">Reduces dependency on external water sources</div>
+                    <div className="font-medium">Compliance Achievement</div>
+                    <div className="text-sm text-gray-600">
+                      Meets government guidelines for sustainable water management
+                    </div>
                   </div>
                 </div>
               </CardContent>
