@@ -121,6 +121,13 @@ export default function Assessment() {
   const [results, setResults] = useState<AssessmentResults | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
 
+  // Location and weather states
+  const [isDetectingLocation, setIsDetectingLocation] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [isFetchingWeather, setIsFetchingWeather] = useState(false);
+  const [weatherError, setWeatherError] = useState<string | null>(null);
+
   const totalSteps = 4;
   const progress = (currentStep / totalSteps) * 100;
 
@@ -334,6 +341,9 @@ export default function Assessment() {
       plotArea: ""
     });
     setResults(null);
+    setWeatherData(null);
+    setLocationError(null);
+    setWeatherError(null);
   };
 
   const isStep1Valid = formData.name && formData.location && formData.state;
