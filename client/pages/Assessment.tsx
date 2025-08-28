@@ -84,12 +84,17 @@ export default function Assessment() {
     roofType: "",
     openSpace: "",
     currentWaterSource: "",
-    annualRainfall: ""
+    annualRainfall: "",
+    soilType: "",
+    geologicalCondition: "",
+    groundwaterDepth: "",
+    buildingArea: "",
+    plotArea: ""
   });
   const [results, setResults] = useState<AssessmentResults | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
 
-  const totalSteps = 3;
+  const totalSteps = 4;
   const progress = (currentStep / totalSteps) * 100;
 
   const states = [
@@ -106,6 +111,20 @@ export default function Assessment() {
 
   const waterSources = [
     "Municipal Supply", "Borewell", "Well", "Tanker Supply", "Mixed Sources"
+  ];
+
+  const soilTypes = [
+    "Alluvial Soil", "Black Cotton Soil", "Red Soil", "Laterite Soil",
+    "Sandy Soil", "Clay Soil", "Loamy Soil", "Rocky/Hard Rock"
+  ];
+
+  const geologicalConditions = [
+    "Alluvial Terrain", "Fractured Hard Rock", "Sedimentary Rock",
+    "Igneous Rock", "Metamorphic Rock", "Coastal Plain", "Hilly Terrain"
+  ];
+
+  const groundwaterDepths = [
+    "0-5 meters", "5-10 meters", "10-20 meters", "20-50 meters", "Above 50 meters", "Unknown"
   ];
 
   const handleInputChange = (field: keyof AssessmentData, value: string) => {
@@ -152,7 +171,12 @@ export default function Assessment() {
       roofType: "",
       openSpace: "",
       currentWaterSource: "",
-      annualRainfall: ""
+      annualRainfall: "",
+      soilType: "",
+      geologicalCondition: "",
+      groundwaterDepth: "",
+      buildingArea: "",
+      plotArea: ""
     });
     setResults(null);
   };
