@@ -27,6 +27,7 @@ import {
   Loader2
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { getCurrentLocation, getWeatherData, getIndianStateFromCoordinates } from "../utils/locationUtils";
 
 interface AssessmentData {
   name: string;
@@ -345,6 +346,65 @@ export default function Assessment() {
     setLocationError(null);
     setWeatherError(null);
   };
+
+  // Location detection function
+  const detectLocation = async () => {
+    setIsDetectingLocation(true);
+    setLocationError(null);
+
+    try {
+      const locationData = await getCurrentLocation();
+
+      // Update form data with detected location
+      setFormData(prev => ({
+        ...prev,
+        location: locationData.city,
+        state: getIndianStateFromCoordinates(locationData.latitude, locationData.longitude),
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
+        detectedLocation: `${locationData.city}, ${locationData.state}`
+      }));
+
+      // Fetch weather data for the detected location
+      await fetchWeatherData(locationData.latitude, locationData.longitude);
+
+    } catch (error) {
+      setLocationError(error instanceof Error ? error.message : 'Failed to detect location');
+    } finally {
+      setIsDetectingLocation(false);
+    }
+  };
+
+  // Fetch weather data function
+  const fetchWeatherData = async (lat: number, lon: number) => {
+    setIsFetchingWeather(true);
+    setWeatherError(null);
+
+    try {
+      const weather = await getWeatherData(lat, lon);
+      setWeatherData(weather);
+
+      // Auto-fill rainfall data if not already provided
+      if (!formData.annualRainfall) {
+        setFormData(prev => ({
+          ...prev,
+          annualRainfall: weather.annualRainfall.toString()
+        }));
+      }
+
+    } catch (error) {
+      setWeatherError(error instanceof Error ? error.message : 'Failed to fetch weather data');
+    } finally {
+      setIsFetchingWeather(false);
+    }
+  };
+
+  // Auto-fetch weather data when location coordinates are available
+  useEffect(() => {
+    if (formData.latitude && formData.longitude && !weatherData) {
+      fetchWeatherData(formData.latitude, formData.longitude);
+    }
+  }, [formData.latitude, formData.longitude]);
 
   const isStep1Valid = formData.name && formData.location && formData.state;
   const isStep2Valid = formData.dwellers && formData.roofArea && formData.roofType &&
