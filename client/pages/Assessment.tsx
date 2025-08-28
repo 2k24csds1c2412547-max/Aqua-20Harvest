@@ -452,6 +452,53 @@ export default function Assessment() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
+            {/* Location Detection Section */}
+            <div className="bg-blue-50 p-4 rounded-lg mb-6">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-2">
+                  <Navigation className="w-5 h-5 text-blue-600" />
+                  <span className="font-medium text-blue-800">Auto-detect Location</span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={detectLocation}
+                  disabled={isDetectingLocation}
+                  className="border-blue-200 text-blue-700 hover:bg-blue-100"
+                >
+                  {isDetectingLocation ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Detecting...
+                    </>
+                  ) : (
+                    <>
+                      <MapPin className="w-4 h-4 mr-2" />
+                      Detect Location
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {formData.detectedLocation && (
+                <div className="flex items-center space-x-2 text-sm text-green-700 bg-green-50 p-2 rounded">
+                  <CheckCircle className="w-4 h-4" />
+                  <span>Location detected: {formData.detectedLocation}</span>
+                </div>
+              )}
+
+              {locationError && (
+                <div className="flex items-center space-x-2 text-sm text-red-700 bg-red-50 p-2 rounded">
+                  <AlertCircle className="w-4 h-4" />
+                  <span>{locationError}</span>
+                </div>
+              )}
+
+              <p className="text-xs text-blue-600 mt-2">
+                Allow location access for automatic detection of your city and real-time rainfall data
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name *</Label>
@@ -462,7 +509,7 @@ export default function Assessment() {
                   onChange={(e) => handleInputChange("name", e.target.value)}
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="location">City/Town *</Label>
                 <Input
@@ -471,6 +518,9 @@ export default function Assessment() {
                   value={formData.location}
                   onChange={(e) => handleInputChange("location", e.target.value)}
                 />
+                {formData.detectedLocation && (
+                  <p className="text-xs text-green-600">Auto-detected from your location</p>
+                )}
               </div>
             </div>
 
@@ -488,10 +538,69 @@ export default function Assessment() {
                   ))}
                 </SelectContent>
               </Select>
+              {formData.detectedLocation && (
+                <p className="text-xs text-green-600">Auto-detected from your location</p>
+              )}
             </div>
 
+            {/* Weather Data Display */}
+            {weatherData && (
+              <div className="bg-green-50 p-4 rounded-lg">
+                <div className="flex items-center space-x-2 mb-3">
+                  <Cloud className="w-5 h-5 text-green-600" />
+                  <span className="font-medium text-green-800">Live Weather Data</span>
+                  <Badge variant="secondary" className="bg-green-100 text-green-700">
+                    {weatherData.dataSource}
+                  </Badge>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                  <div className="text-center">
+                    <div className="font-semibold text-green-800">{weatherData.annualRainfall}mm</div>
+                    <div className="text-green-600">Annual Rainfall</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-semibold text-green-800">{weatherData.temperature}°C</div>
+                    <div className="text-green-600">Temperature</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-semibold text-green-800">{Math.round(weatherData.humidity)}%</div>
+                    <div className="text-green-600">Humidity</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-semibold text-green-800">
+                      {Math.max(...weatherData.monthlyRainfall)}mm
+                    </div>
+                    <div className="text-green-600">Peak Month</div>
+                  </div>
+                </div>
+
+                <p className="text-xs text-green-600 mt-2">
+                  Rainfall data will be automatically used in calculations
+                </p>
+              </div>
+            )}
+
+            {isFetchingWeather && (
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
+                  <span className="text-blue-800">Fetching real-time weather data...</span>
+                </div>
+              </div>
+            )}
+
+            {weatherError && (
+              <div className="bg-red-50 p-4 rounded-lg">
+                <div className="flex items-center space-x-2 text-red-700">
+                  <AlertCircle className="w-4 h-4" />
+                  <span>{weatherError}</span>
+                </div>
+              </div>
+            )}
+
             <div className="flex justify-end pt-4">
-              <Button 
+              <Button
                 onClick={() => setCurrentStep(2)}
                 disabled={!isStep1Valid}
                 className="bg-water-600 hover:bg-water-700"
