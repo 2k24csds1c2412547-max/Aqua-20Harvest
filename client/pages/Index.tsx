@@ -39,23 +39,23 @@ export default function Index() {
   const features = [
     {
       icon: Calculator,
-      title: "Instant Assessment",
-      description: "Get immediate feasibility analysis for your rooftop rainwater harvesting potential"
+      title: "Comprehensive Assessment",
+      description: "Complete feasibility analysis including geological conditions, aquifer information, and runoff capacity"
     },
     {
       icon: MapPin,
-      title: "Location-Based Analysis",
-      description: "GIS-powered recommendations tailored to your specific geographic location"
+      title: "Government Guidelines Compliant",
+      description: "Follows Ministry of Jal Shakti and MoHUA guidelines for mandatory installations and technical specifications"
     },
     {
       icon: Zap,
-      title: "Smart Calculations",
-      description: "Advanced algorithms consider roof area, household size, and local rainfall patterns"
+      title: "Recharge Structure Design",
+      description: "Detailed recommendations for recharge pits, trenches, and shafts with precise dimensions and costs"
     },
     {
       icon: Shield,
-      title: "Reliable Results",
-      description: "Data-driven insights to help you make informed decisions about water conservation"
+      title: "Technical Specifications",
+      description: "Complete filtration design, aquifer analysis, and cost-benefit calculations for informed implementation"
     }
   ];
 
