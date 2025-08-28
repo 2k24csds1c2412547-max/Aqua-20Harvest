@@ -517,9 +517,141 @@ export default function Assessment() {
                 Previous
               </Button>
               
-              <Button 
+              <Button
+                onClick={() => setCurrentStep(3)}
+                disabled={!isStep2Valid}
+                className="bg-water-600 hover:bg-water-700"
+              >
+                Next Step
+                <ChevronRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Step 3: Geological & Technical Information */}
+      {currentStep === 3 && (
+        <Card className="border-none shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-water-100 rounded-lg flex items-center justify-center">
+                <MapPin className="w-4 h-4 text-water-600" />
+              </div>
+              <span>Geological & Technical Information</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="bg-blue-50 p-4 rounded-lg mb-6">
+              <p className="text-sm text-blue-800">
+                <AlertCircle className="w-4 h-4 inline mr-2" />
+                This information helps determine the most suitable recharge structures as per
+                Ministry of Jal Shakti and MoHUA guidelines.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="soilType">Soil Type *</Label>
+                <Select value={formData.soilType} onValueChange={(value) => handleInputChange("soilType", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select soil type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {soilTypes.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="geologicalCondition">Geological Condition *</Label>
+                <Select value={formData.geologicalCondition} onValueChange={(value) => handleInputChange("geologicalCondition", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select geological condition" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {geologicalConditions.map((condition) => (
+                      <SelectItem key={condition} value={condition}>
+                        {condition}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="groundwaterDepth">Groundwater Depth *</Label>
+                <Select value={formData.groundwaterDepth} onValueChange={(value) => handleInputChange("groundwaterDepth", value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select groundwater depth" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {groundwaterDepths.map((depth) => (
+                      <SelectItem key={depth} value={depth}>
+                        {depth}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="buildingArea">Total Building Area (sq ft) *</Label>
+                <Input
+                  id="buildingArea"
+                  type="number"
+                  placeholder="e.g., 1500"
+                  value={formData.buildingArea}
+                  onChange={(e) => handleInputChange("buildingArea", e.target.value)}
+                />
+                <p className="text-xs text-gray-500">
+                  Buildings ≥300 sq ft require mandatory RTRWH installation
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="plotArea">Total Plot Area (sq ft) *</Label>
+              <Input
+                id="plotArea"
+                type="number"
+                placeholder="e.g., 2400"
+                value={formData.plotArea}
+                onChange={(e) => handleInputChange("plotArea", e.target.value)}
+              />
+              <p className="text-xs text-gray-500">
+                Used for determining appropriate recharge structure dimensions
+              </p>
+            </div>
+
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h4 className="font-medium text-green-800 mb-2">Government Guidelines Compliance</h4>
+              <ul className="text-sm text-green-700 space-y-1">
+                <li>• Suitable for alluvial or fractured hard rock terrains</li>
+                <li>• Ensures proper filtration with sand and gravel beds</li>
+                <li>• Meets MoHUA mandatory installation requirements</li>
+                <li>• Follows Ministry of Jal Shakti technical specifications</li>
+              </ul>
+            </div>
+
+            <div className="flex justify-between pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setCurrentStep(2)}
+              >
+                <ChevronLeft className="mr-2 w-4 h-4" />
+                Previous
+              </Button>
+
+              <Button
                 onClick={calculateResults}
-                disabled={!isStep2Valid || isCalculating}
+                disabled={!isStep3Valid || isCalculating}
                 className="bg-water-600 hover:bg-water-700"
               >
                 {isCalculating ? (
@@ -539,8 +671,8 @@ export default function Assessment() {
         </Card>
       )}
 
-      {/* Step 3: Results */}
-      {currentStep === 3 && results && (
+      {/* Step 4: Results */}
+      {currentStep === 4 && results && (
         <div className="space-y-6">
           <Card className="border-none shadow-lg bg-gradient-to-r from-water-50 to-nature-50">
             <CardHeader>
