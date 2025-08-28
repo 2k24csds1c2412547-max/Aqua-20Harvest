@@ -310,8 +310,10 @@ export default function Assessment() {
   };
 
   const isStep1Valid = formData.name && formData.location && formData.state;
-  const isStep2Valid = formData.dwellers && formData.roofArea && formData.roofType && 
+  const isStep2Valid = formData.dwellers && formData.roofArea && formData.roofType &&
                       formData.openSpace && formData.currentWaterSource;
+  const isStep3Valid = formData.soilType && formData.geologicalCondition &&
+                      formData.groundwaterDepth && formData.buildingArea && formData.plotArea;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -336,7 +338,8 @@ export default function Assessment() {
         <div className="flex justify-between mt-2 text-xs text-gray-500">
           <span className={currentStep >= 1 ? "text-water-600" : ""}>Basic Info</span>
           <span className={currentStep >= 2 ? "text-water-600" : ""}>Property Details</span>
-          <span className={currentStep >= 3 ? "text-water-600" : ""}>Results</span>
+          <span className={currentStep >= 3 ? "text-water-600" : ""}>Geological Info</span>
+          <span className={currentStep >= 4 ? "text-water-600" : ""}>Results</span>
         </div>
       </div>
 
