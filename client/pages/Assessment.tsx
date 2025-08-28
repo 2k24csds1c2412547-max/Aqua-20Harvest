@@ -21,9 +21,12 @@ import {
   FileText,
   Layers,
   Zap,
-  Building
+  Building,
+  Navigation,
+  Cloud,
+  Loader2
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface AssessmentData {
   name: string;
@@ -40,6 +43,25 @@ interface AssessmentData {
   groundwaterDepth: string;
   buildingArea: string;
   plotArea: string;
+  latitude?: number;
+  longitude?: number;
+  detectedLocation?: string;
+}
+
+interface LocationData {
+  latitude: number;
+  longitude: number;
+  city: string;
+  state: string;
+  country: string;
+}
+
+interface WeatherData {
+  annualRainfall: number;
+  monthlyRainfall: number[];
+  temperature: number;
+  humidity: number;
+  dataSource: string;
 }
 
 interface AssessmentResults {
