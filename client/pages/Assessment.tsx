@@ -30,6 +30,11 @@ interface AssessmentData {
   openSpace: string;
   currentWaterSource: string;
   annualRainfall: string;
+  soilType: string;
+  geologicalCondition: string;
+  groundwaterDepth: string;
+  buildingArea: string;
+  plotArea: string;
 }
 
 interface AssessmentResults {
@@ -39,6 +44,33 @@ interface AssessmentResults {
   annualSavings: number;
   paybackPeriod: number;
   environmentalImpact: string;
+  rechargeStructures: RechargeStructure[];
+  geologicalFeasibility: string;
+  governmentCompliance: GovernmentCompliance;
+  aquiferInfo: AquiferInfo;
+  runoffCapacity: number;
+}
+
+interface RechargeStructure {
+  type: string;
+  dimensions: string;
+  cost: number;
+  suitability: string;
+  specifications: string[];
+}
+
+interface GovernmentCompliance {
+  mandatoryRequirement: boolean;
+  complianceLevel: string;
+  requiredPermits: string[];
+  guidelines: string[];
+}
+
+interface AquiferInfo {
+  type: string;
+  depth: string;
+  quality: string;
+  rechargeCapacity: string;
 }
 
 export default function Assessment() {
