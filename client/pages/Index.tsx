@@ -1,62 +1,273 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Droplets, 
+  Calculator, 
+  MapPin, 
+  Users, 
+  Home, 
+  Zap,
+  ChevronRight,
+  CheckCircle,
+  TrendingUp,
+  Leaf,
+  Shield
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
+  const [stats, setStats] = useState({
+    assessments: 0,
+    waterSaved: 0,
+    households: 0
+  });
+
   useEffect(() => {
-    fetchDemo();
+    // Animate counters
+    const timer = setTimeout(() => {
+      setStats({
+        assessments: 1247,
+        waterSaved: 15640,
+        households: 890
+      });
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
-    try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
+  const features = [
+    {
+      icon: Calculator,
+      title: "Instant Assessment",
+      description: "Get immediate feasibility analysis for your rooftop rainwater harvesting potential"
+    },
+    {
+      icon: MapPin,
+      title: "Location-Based Analysis",
+      description: "GIS-powered recommendations tailored to your specific geographic location"
+    },
+    {
+      icon: Zap,
+      title: "Smart Calculations",
+      description: "Advanced algorithms consider roof area, household size, and local rainfall patterns"
+    },
+    {
+      icon: Shield,
+      title: "Reliable Results",
+      description: "Data-driven insights to help you make informed decisions about water conservation"
     }
-  };
+  ];
+
+  const benefits = [
+    "Reduce water bills by up to 40%",
+    "Contribute to groundwater recharge",
+    "Ensure water security during droughts",
+    "Support environmental sustainability",
+    "Comply with local water conservation policies"
+  ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
-      </div>
+    <div className="space-y-16">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div>
+                <Badge variant="secondary" className="mb-4 bg-water-100 text-water-700">
+                  Groundwater Conservation Initiative
+                </Badge>
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                  Assess Your{" "}
+                  <span className="bg-gradient-to-r from-water-600 to-nature-600 bg-clip-text text-transparent">
+                    Rooftop Rainwater
+                  </span>{" "}
+                  Harvesting Potential
+                </h1>
+                <p className="text-xl text-gray-600 mt-6">
+                  Discover how much water you can harvest, save costs, and contribute to environmental conservation 
+                  with our AI-powered assessment tool.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button asChild size="lg" className="bg-water-600 hover:bg-water-700">
+                  <Link to="/assessment">
+                    Start Assessment
+                    <Calculator className="ml-2 w-5 h-5" />
+                  </Link>
+                </Button>
+                <Button variant="outline" size="lg" asChild>
+                  <Link to="/about">
+                    Learn More
+                    <ChevronRight className="ml-2 w-5 h-5" />
+                  </Link>
+                </Button>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="grid grid-cols-3 gap-4 pt-8 border-t border-gray-200">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-water-600">{stats.assessments.toLocaleString()}</div>
+                  <div className="text-sm text-gray-600">Assessments</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-nature-600">{stats.waterSaved.toLocaleString()}L</div>
+                  <div className="text-sm text-gray-600">Water Saved</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-earth-600">{stats.households.toLocaleString()}</div>
+                  <div className="text-sm text-gray-600">Households</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="aspect-square bg-gradient-to-br from-water-100 to-nature-100 rounded-3xl p-8 flex items-center justify-center">
+                <div className="text-center space-y-6">
+                  <div className="w-24 h-24 bg-gradient-to-br from-water-500 to-water-600 rounded-2xl flex items-center justify-center mx-auto">
+                    <Droplets className="w-12 h-12 text-white" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-bold text-gray-900">Simple Assessment</h3>
+                    <p className="text-gray-600">Just 5 inputs to get comprehensive analysis</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="flex items-center space-x-2">
+                      <Home className="w-4 h-4 text-water-600" />
+                      <span>Roof Area</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <MapPin className="w-4 h-4 text-water-600" />
+                      <span>Location</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Users className="w-4 h-4 text-water-600" />
+                      <span>Household Size</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <TrendingUp className="w-4 h-4 text-water-600" />
+                      <span>Open Space</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Why Use Our Assessment Tool?
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Our advanced platform combines GIS technology with proven algorithms to provide 
+            accurate, personalized recommendations for your rainwater harvesting project.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <Card key={index} className="text-center border-none shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-br from-water-500 to-water-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle className="text-lg">{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">{feature.description}</p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="bg-white/50 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Benefits of Rooftop Rainwater Harvesting
+              </h2>
+              <p className="text-lg text-gray-600 mb-8">
+                Join thousands of households already benefiting from sustainable water management 
+                and contributing to groundwater conservation efforts.
+              </p>
+              
+              <div className="space-y-4">
+                {benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    <CheckCircle className="w-5 h-5 text-nature-600 flex-shrink-0" />
+                    <span className="text-gray-700">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Button asChild className="mt-8 bg-nature-600 hover:bg-nature-700">
+                <Link to="/assessment">
+                  Get Started Today
+                  <Leaf className="ml-2 w-5 h-5" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="bg-gradient-to-br from-nature-50 to-water-50 rounded-2xl p-8">
+              <div className="text-center space-y-6">
+                <div className="text-4xl font-bold text-nature-600">40%</div>
+                <div className="text-lg text-gray-700">Average water bill reduction</div>
+                
+                <div className="grid grid-cols-2 gap-6 mt-8">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-water-600">15,000L</div>
+                    <div className="text-sm text-gray-600">Annual harvest potential</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-earth-600">₹12,000</div>
+                    <div className="text-sm text-gray-600">Annual savings</div>
+                  </div>
+                </div>
+                
+                <p className="text-sm text-gray-600 italic">
+                  *Based on average household assessments
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <Card className="bg-gradient-to-r from-water-600 to-nature-600 border-none text-white overflow-hidden">
+          <CardContent className="p-12 text-center relative">
+            <div className="absolute inset-0 bg-black/10"></div>
+            <div className="relative z-10">
+              <h2 className="text-3xl font-bold mb-4">
+                Ready to Start Your Water Conservation Journey?
+              </h2>
+              <p className="text-xl mb-8 opacity-90">
+                Get your personalized RTRWH assessment in less than 5 minutes. 
+                Join the movement towards sustainable water management.
+              </p>
+              <Button asChild size="lg" className="bg-white text-water-700 hover:bg-gray-100">
+                <Link to="/assessment">
+                  Start Free Assessment
+                  <ChevronRight className="ml-2 w-5 h-5" />
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
     </div>
   );
 }
