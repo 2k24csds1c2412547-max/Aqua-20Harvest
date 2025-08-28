@@ -701,17 +701,33 @@ export default function Assessment() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="annualRainfall">Annual Rainfall (mm) - Optional</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="annualRainfall">Annual Rainfall (mm)</Label>
+                {weatherData && (
+                  <Badge variant="secondary" className="bg-green-100 text-green-700">
+                    <Cloud className="w-3 h-3 mr-1" />
+                    Live Data
+                  </Badge>
+                )}
+              </div>
               <Input
                 id="annualRainfall"
                 type="number"
-                placeholder="e.g., 1200 (we'll estimate if not provided)"
+                placeholder="e.g., 1200"
                 value={formData.annualRainfall}
                 onChange={(e) => handleInputChange("annualRainfall", e.target.value)}
+                className={weatherData ? "border-green-300 bg-green-50" : ""}
               />
-              <p className="text-sm text-gray-500">
-                If you don't know, we'll use location-based data
-              </p>
+              {weatherData ? (
+                <p className="text-sm text-green-600 flex items-center">
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  Auto-filled from real weather data for your location ({weatherData.annualRainfall}mm)
+                </p>
+              ) : (
+                <p className="text-sm text-gray-500">
+                  Use location detection above to get real rainfall data for your area
+                </p>
+              )}
             </div>
 
             <div className="flex justify-between pt-4">
