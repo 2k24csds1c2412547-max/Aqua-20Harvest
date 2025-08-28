@@ -61,10 +61,11 @@ export default function Index() {
 
   const benefits = [
     "Reduce water bills by up to 40%",
-    "Contribute to groundwater recharge",
-    "Ensure water security during droughts",
-    "Support environmental sustainability",
-    "Comply with local water conservation policies"
+    "Meet mandatory government installation requirements",
+    "Get precise recharge structure recommendations with costs",
+    "Understand local aquifer conditions and potential",
+    "Ensure compliance with Ministry of Jal Shakti guidelines",
+    "Receive technical specifications for proper implementation"
   ];
 
   return (
