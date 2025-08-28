@@ -172,10 +172,10 @@ export default function Assessment() {
     // Simulate API call for calculation
     await new Promise(resolve => setTimeout(resolve, 3000));
 
-    // Enhanced calculation based on form data and government guidelines
+    // Enhanced calculation based on form data, weather data, and government guidelines
     const roofArea = parseFloat(formData.roofArea) || 0;
     const dwellers = parseInt(formData.dwellers) || 1;
-    const rainfall = parseFloat(formData.annualRainfall) || 1000;
+    const rainfall = weatherData ? weatherData.annualRainfall : (parseFloat(formData.annualRainfall) || 1000);
     const plotArea = parseFloat(formData.plotArea) || roofArea * 1.5;
     const buildingArea = parseFloat(formData.buildingArea) || roofArea;
 
