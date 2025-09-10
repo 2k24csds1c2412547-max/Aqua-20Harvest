@@ -12,6 +12,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import InstallationGuide from "@/components/InstallationGuide";
+import { getBlendedAnnualRainfall, rainfallPercentile } from "@/utils/rainfallUtils";
+import type { RainfallProvenance } from "@/utils/rainfallUtils";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import {
   Calculator,
   MapPin,
@@ -75,6 +79,14 @@ interface WeatherData {
   dataSource: string;
 }
 
+interface Sustainability {
+  verdict: string;
+  demandCoveredPct: number;
+  needLevel: string;
+  basis: string[];
+  rainfallProvenance: RainfallProvenance;
+}
+
 interface AssessmentResults {
   harvestPotential: number;
   systemSize: string;
@@ -87,6 +99,7 @@ interface AssessmentResults {
   governmentCompliance: GovernmentCompliance;
   aquiferInfo: AquiferInfo;
   runoffCapacity: number;
+  sustainability: Sustainability;
 }
 
 interface RechargeStructure {
@@ -231,10 +244,15 @@ export default function Assessment() {
 
     // Enhanced calculation based on form data, weather data, and government guidelines
     const roofArea = parseFloat(formData.roofArea) || 0;
-    const dwellers = parseInt(formData.dwellers) || 1;
-    const rainfall = weatherData
-      ? weatherData.annualRainfall
-      : parseFloat(formData.annualRainfall) || 1000;
+    let dwellers = parseInt(formData.dwellers) || 1;
+    if (formData.dwellers.includes("+")) dwellers += 2; // approximate for 10+
+
+    const rainfallProv = getBlendedAnnualRainfall(
+      formData.state || undefined,
+      weatherData?.annualRainfall,
+      formData.annualRainfall ? parseFloat(formData.annualRainfall) : undefined,
+    );
+    const rainfall = rainfallProv.usedAnnualRainfall;
     const plotArea = parseFloat(formData.plotArea) || roofArea * 1.5;
     const buildingArea = parseFloat(formData.buildingArea) || roofArea;
 
@@ -251,6 +269,30 @@ export default function Assessment() {
     const harvestPotential = Math.round(
       roofArea * rainfall * runoffCoefficient * 0.001,
     );
+
+    // Water demand per BIS: 135 L/person/day
+    const annualDemandKL = Math.round((dwellers * 135 * 365) / 1000);
+    const demandCovered = harvestPotential / Math.max(annualDemandKL, 1);
+    const demandCoveredPct = Math.max(0, Math.min(1, demandCovered));
+
+    const rainPct = rainfallPercentile(rainfall);
+    let needScore = 0;
+    if (formData.currentWaterSource === "Tanker Supply") needScore += 2;
+    if (formData.currentWaterSource === "Borewell" || formData.currentWaterSource === "Well") needScore += 1.5;
+    if (formData.groundwaterDepth.includes("Above 50")) needScore += 2;
+    else if (formData.groundwaterDepth.includes("20-50")) needScore += 1;
+    if (rainPct < 0.3) needScore += 1.5; else if (rainPct < 0.6) needScore += 1;
+    if (demandCoveredPct >= 0.6) needScore -= 1; else if (demandCoveredPct < 0.3) needScore += 1;
+
+    const needLevel = needScore >= 3 ? "High" : needScore >= 1.5 ? "Medium" : "Low";
+    const sustainabilityVerdict =
+      demandCoveredPct >= 0.8
+        ? "High sustainability (meets most demand)"
+        : demandCoveredPct >= 0.5
+          ? "Moderate sustainability"
+          : demandCoveredPct >= 0.3
+            ? "Partial support"
+            : "Low sustainability (non‑potable uses recommended)";
     const runoffCapacity = Math.round(
       roofArea * 0.001 * rainfall * runoffCoefficient,
     );
@@ -315,6 +357,18 @@ export default function Assessment() {
       },
       aquiferInfo,
       runoffCapacity,
+      sustainability: {
+        verdict: sustainabilityVerdict,
+        demandCoveredPct: Math.round(demandCoveredPct * 100) / 100,
+        needLevel,
+        basis: [
+          `Annual rainfall used: ${rainfall} mm (${rainfallProv.sourceLabel})`,
+          `Roof runoff coefficient: ${runoffCoefficient}`,
+          `Estimated annual demand: ${annualDemandKL} KL for ${dwellers} people`,
+          `Harvest can meet ~${Math.round(demandCoveredPct * 100)}% of demand`,
+        ],
+        rainfallProvenance: rainfallProv,
+      },
     });
 
     setIsCalculating(false);
@@ -1130,6 +1184,44 @@ export default function Assessment() {
             </CardContent>
           </Card>
 
+          <Card className="border-none shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <span>IMD/Kaggle Prediction: Sustainability & Need</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-4 bg-white rounded-lg border">
+                  <div className="text-sm text-gray-600 mb-1">Sustainability</div>
+                  <Badge variant="secondary">{results.sustainability.verdict}</Badge>
+                  <div className="text-xs text-gray-500 mt-2">Demand covered: {Math.round(results.sustainability.demandCoveredPct*100)}%</div>
+                </div>
+                <div className="p-4 bg-white rounded-lg border">
+                  <div className="text-sm text-gray-600 mb-1">Need Level</div>
+                  <Badge>{results.sustainability.needLevel}</Badge>
+                  <div className="text-xs text-gray-500 mt-2">Higher need indicates greater benefits/urgency</div>
+                </div>
+                <div className="p-4 bg-white rounded-lg border">
+                  <div className="text-sm text-gray-600 mb-1">Rainfall Basis</div>
+                  <div className="text-xs text-gray-700">
+                    {results.sustainability.rainfallProvenance.sourceLabel}
+                    {results.sustainability.rainfallProvenance.imdKaggleStateAverage ? (
+                      <div>State avg: {results.sustainability.rainfallProvenance.imdKaggleStateAverage} mm</div>
+                    ) : null}
+                    <div>Used: {results.sustainability.rainfallProvenance.usedAnnualRainfall} mm</div>
+                  </div>
+                </div>
+              </div>
+              <ul className="mt-4 text-sm text-gray-600 list-disc pl-5 space-y-1">
+                {results.sustainability.basis.map((b, i) => (
+                  <li key={i}>{b}</li>
+                ))}
+              </ul>
+              <p className="mt-3 text-xs text-gray-500">Data sources: IMD long‑period averages and Kaggle India rainfall datasets (pre‑aggregated), blended with live data where available.</p>
+            </CardContent>
+          </Card>
+
           {/* Government Compliance */}
           <Card className="border-none shadow-lg bg-gradient-to-r from-blue-50 to-blue-100">
             <CardHeader>
@@ -1195,6 +1287,29 @@ export default function Assessment() {
                     )}
                   </ul>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Rainfall Distribution */}
+          <Card className="border-none shadow-lg">
+            <CardHeader>
+              <CardTitle>Rainfall Distribution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={(weatherData?.monthlyRainfall?.length ? weatherData.monthlyRainfall :
+                    // Simple fallback distribution if live monthly data missing
+                    (()=>{const r=results.sustainability.rainfallProvenance.usedAnnualRainfall; const arr=new Array(12).fill(0); for(let i=0;i<12;i++){ if(i>=5&&i<=8) arr[i]=r*0.65/4; else if(i===4||i===9) arr[i]=r*0.1/2; else arr[i]=r*0.25/6;} return arr.map((v,idx)=>({month: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][idx], value: Math.round(v)}));})()
+                  ).map((v: any, idx: number)=> (typeof v==="number"? {month: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][idx], value: v} : v))}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#3b82f6" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
@@ -1397,6 +1512,8 @@ export default function Assessment() {
               </CardContent>
             </Card>
           </div>
+
+          <InstallationGuide systemSize={results.systemSize} rechargeStructures={results.rechargeStructures} />
 
           <Card className="border-none shadow-lg bg-gradient-to-r from-water-600 to-nature-600 text-white">
             <CardContent className="p-6 text-center">
