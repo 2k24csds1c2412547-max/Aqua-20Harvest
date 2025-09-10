@@ -1,4 +1,8 @@
-import { STATE_RAINFALL_MM, RAIN_MAX, RAIN_MIN } from "@/data/imd_kaggle_rainfall";
+import {
+  STATE_RAINFALL_MM,
+  RAIN_MAX,
+  RAIN_MIN,
+} from "@/data/imd_kaggle_rainfall";
 
 export interface RainfallProvenance {
   usedAnnualRainfall: number; // mm
@@ -22,7 +26,9 @@ export function getBlendedAnnualRainfall(
 ): RainfallProvenance {
   const stateAvg = getStateAverageRainfall(state);
   if (stateAvg != null && isFinite(liveAnnualRainfall ?? NaN)) {
-    const used = Math.round(stateAvg * 0.7 + (liveAnnualRainfall as number) * 0.3);
+    const used = Math.round(
+      stateAvg * 0.7 + (liveAnnualRainfall as number) * 0.3,
+    );
     return {
       usedAnnualRainfall: used,
       imdKaggleStateAverage: stateAvg,
