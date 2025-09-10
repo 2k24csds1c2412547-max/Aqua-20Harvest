@@ -52,7 +52,7 @@ import {
   getCurrentLocation,
   getWeatherData,
   getIndianStateFromCoordinates,
-} from "../utils/locationUtils";
+} from "@/utils/locationUtils";
 
 interface AssessmentData {
   name: string;
